@@ -1,0 +1,11 @@
+{
+  "name": "airspacemap",
+  "version": "1.0.0",
+  "description": "made by participants of Team F: Teodor, Monica, Raluca, Andrei, Alex",
+  "main": "sketch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Team F",
+  "license": "ISC"
+}
