@@ -1,0 +1,21 @@
+{
+  "name": "aipmap",
+  "version": "1.0.0",
+  "description": "this is a project for the ATM course done in SEM2 YEAR4 at FIA, Air Navigation Section",
+  "main": "sketch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": " tsodor/Team-F---ATM---FIA"
+  },
+  "keywords": [
+    "Team-F---ATM---FIA"
+  ],
+  "author": "Teodor, Monica, Georgiana, Gabriel, Andrei",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
