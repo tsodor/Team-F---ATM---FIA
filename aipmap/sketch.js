@@ -41,4 +41,3 @@ async function getAPI(map,userSettings){
 	plotGeolocation(map,userSettings,latAp,lonAp);
 	addMarker(latAp,lonAp);
 }
-

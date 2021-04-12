@@ -21,8 +21,6 @@ function plotGeolocation(map,usermap,latAp,lonAp){
                 addMarker(lat,lon);
                 var center = new google.maps.LatLng(lat,lon);
                 setCenterAndZoom(center,10);
-
-
             });
         }else {
             console.log("location not available");
@@ -76,3 +74,4 @@ function setZoom(zoom){
 }
 
 ///////////////////////////////////////////////////////
+
