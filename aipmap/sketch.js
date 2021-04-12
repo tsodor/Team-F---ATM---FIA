@@ -26,3 +26,4 @@ function initMap() {
   });
   console.log('Map is working');
 }
+
