@@ -11,8 +11,9 @@
 	<script src="libraries/p5.dom.js"></script>
 	<script src="libraries/p5.sound.js"></script>
 	<script src="sketch.js"></script>
+	<script src="drawmap.js"></script>
 
-	<style>
+	<!-- <style>
 		body {
 			margin:0;
 			padding:0;
@@ -21,9 +22,41 @@
 		canvas {
 			margin:auto;
 		}
-	</style>
-	<h1>test-ATM-TeamF</h1>
+	</style> -->
+	<style type="text/css">
+		/* Always set the map height explicitly to define the size of the div
+		* element that contains the map. */
+		#map {
+			height: 100%;
+		}
+		/* Optional: Makes the sample page fill the window. */
+		html,
+		body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+    </style>
+	<h1 style="text-align:center">Version2-ATM-TeamF</h1>
 </head>
-<body>
+<body>	
+	<div id="user_settings" style="float: left; width: 50%">
+		<p>
+			Your current position is somewhere around...<br />
+			latitude: <span id="latitude">&deg;</span><br />
+			longitude: <span id="longitude">&deg;</span>
+		</p>
+		<p>
+			Your nearest Airport is<br />
+			latitude: <span id="airportLat">&deg;</span><br />
+			longitude: <span id="airportLon">&deg;</span>
+		</p>
+	</div>
+
+    <div id="map" style="float: right; width: 50%"></div>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSGWLGsVB1CywI7sQjoPHUh8NwB6cfTtY&callback=initMap&libraries=&v=weekly"
+      async
+    ></script>
 </body>
 </html>
