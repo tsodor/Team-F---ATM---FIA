@@ -44,6 +44,14 @@ function plotNearAirport(map,usermap,coords){
     
 }
 
+function plotNanAids(lat,lon) {
+// @MONICA: aici scrie codul pentru plotat datele de care ai nevoie
+}
+
+function plotRwyThr(lat,lon){
+// @GEORGIANA: aici scrie codul pentru plotat datele de care ai nevoie
+}
+
 //Functions about map stuff TODO:put in separate file
 
 function addMarker(lat,lon){
@@ -61,7 +69,7 @@ function addLine(coords){
     var linePath = new google.maps.Polyline({
         path: coords,
         geodesic: true,
-        strokeColor: '#FF0000'
+        strokeColor: '#ff0000'
         })
     linePath.setMap(map);
 }
