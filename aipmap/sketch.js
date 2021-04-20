@@ -28,16 +28,44 @@ function initMap() {
   console.log('Map is working');
 }
 
-async function getAPI(map,userSettings){
-    const response = await fetch(api_url);
-    const data = await response.json();
-    console.log("read from api the following JSON:")
-    console.log(data);
+async function getAPI(map,userSettings) {
+	const response = await fetch(api_url);
+	const data = await response.json();
+	console.log("read from api the following JSON:")
+	console.log(data);
 
-    const {lat, lon}=data;
-	latAp=lat;
-	lonAp=lon;
-	
-	plotGeolocation(map,userSettings,latAp,lonAp);
-	addMarker(latAp,lonAp);
+	const {lat, lon} = data;
+	latAp = lat;
+	lonAp = lon;
+
+	plotGeolocation(map, userSettings, latAp, lonAp);
+	addMarker(latAp, lonAp);
+
+
+	const datarunway = data.runways;
+	for (var i = 0; i < datarunway.length; i++) {
+		for(var j=0; j<datarunway[i].navaids.length; j++){
+			var obj=datarunway[i].navaids[j];
+			var latnav=obj.lat;
+			var lonnav=obj.lon;
+
+			addMarker(latnav, lonnav);
+		}
+	}
+
+	for (var k = 0; k< datarunway.length; k++) {
+		for(var p=0; p<datarunway[k].ends.length; p++){
+			var obj2=datarunway[k].ends[p];
+			var latends=obj2.lat;
+			var lonends=obj2.lon;
+
+			addMarker(latends, lonends);
+		}
+	}
+
 }
+
+
+
+
+
