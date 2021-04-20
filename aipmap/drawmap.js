@@ -1,4 +1,4 @@
-function plotGeolocation(map,usermap){
+function plotGeolocation(map,usermap,latAp,lonAp){
     if(usermap.get('geolocation_option')=='on'){
         if('geolocation' in navigator) {
             console.log("location available");
@@ -7,18 +7,20 @@ function plotGeolocation(map,usermap){
                 console.log(position.coords);
                 const lat=position.coords.latitude;
                 const lon=position.coords.longitude;
-                plotNearAirport(map,usermap,lat,lon)
                 document.getElementById('latitude').textContent=lat;
                 document.getElementById('longitude').textContent=lon;
+                document.getElementById('airportLat').textContent=latAp;
+                document.getElementById('airportLon').textContent=lonAp;
 
+                
+                var lineCoordinates = [
+                    {lat: lat, lng: lon},
+                    {lat: latAp, lng: lonAp},
+                ];
+                plotNearAirport(map,usermap,lineCoordinates);
+                addMarker(lat,lon);
                 var center = new google.maps.LatLng(lat,lon);
-                new google.maps.Marker({
-                  position: center,
-                  map,
-                  title: "Hello World!",
-                });
-                map.setCenter(center);
-                map.setZoom(15);
+                setCenterAndZoom(center,10);
             });
         }else {
             console.log("location not available");
@@ -31,24 +33,46 @@ function plotGeolocation(map,usermap){
 
 }
 
-function plotNearAirport(map,usermap,x,y){
+function plotNearAirport(map,usermap,coords){
     if(usermap.get('aerodromeNear')=='on'){
         console.log('calling plotNearAirport');
-        latMe=x;
-        lonMe=y;
-        document.getElementById('airportLat').textContent=44.55;
-        document.getElementById('airportLon').textContent=26.06;
-        var lineCoordinates = [
-            {lat: latMe, lng: lonMe},
-            {lat: 44.55, lng: 26.06},
-          ];
-        var linePath = new google.maps.Polyline({
-        path: lineCoordinates,
-        geodesic: true,
-        strokeColor: '#FF0000'
-        })
-        linePath.setMap(map);
+        addLine(coords);
+        setZoom(10);
     }
     
 }
+
+//Functions about map stuff TODO:put in separate file
+
+function addMarker(lat,lon){
+	console.log('adding Marker');
+    var center = new google.maps.LatLng(lat,lon);
+    new google.maps.Marker({
+      position: center,
+      map,
+      title: "Hello World!",
+    });
+}
+
+function addLine(coords){
+    console.log('adding Line');
+    var linePath = new google.maps.Polyline({
+        path: coords,
+        geodesic: true,
+        strokeColor: '#FF0000'
+        })
+    linePath.setMap(map);
+}
+
+function setCenterAndZoom(center,zoom){
+    map.setCenter(center);
+    map.setZoom(zoom);
+}
+
+function setZoom(zoom){
+    map.setZoom(zoom);
+}
+
+
+///////////////////////////////////////////////////////
 
