@@ -7,11 +7,17 @@ function plotGeolocation(map,usermap,latAp,lonAp){
                 console.log(position.coords);
                 const lat=position.coords.latitude;
                 const lon=position.coords.longitude;
+
+                // const ICAOcode=getAirportsCodes(lat,lon);
+                // console.log("Sebi, look here");
+                // console.log(ICAOcode);
+
                 document.getElementById('latitude').textContent=lat;
                 document.getElementById('longitude').textContent=lon;
                 document.getElementById('airportLat').textContent=latAp;
                 document.getElementById('airportLon').textContent=lonAp;
 
+                
                 
                 var lineCoordinates = [
                     {lat: lat, lng: lon},
