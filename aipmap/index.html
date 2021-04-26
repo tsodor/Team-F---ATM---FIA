@@ -15,7 +15,7 @@
 	<script src="dashboard_management.js"></script>
 	<link rel="stylesheet" href="mystyle.css">
 
-	<h1 style="text-align:center">Version2-ATM-TeamF</h1>
+	<h1 style="text-align:center">Version3-ATM-TeamF</h1>
 </head>
 <body>	
 	<div id="user_settings" style="float: left; width: 50%">
@@ -36,56 +36,55 @@
 		<div id="upper_dashboard">
 			<div id="usersettings_dashboard" style="float: left; width: 50%">
 				<h2>Departure Airport</h2>
-				<select name="formArrival" id="user_settings_form">
+				<select name="formGeolocation" id="formGeolocation">
 					<option value="geolocation">Geolocate my airport</option>
 					<option value="no_geolocation">Choose different airport</option>
 				</select>
 			</div>
 			<div id="listofap_dashboard" style="float: left; width: 50%">
 				<h2>Arrival Airport</h2>
-				<p>Choose airport</p>
-				<nav>
-					<ul>
-						<li>ARAD (LRAD)</li>
-						<li>BACAU (LRBC)</li>
-						<li>BAIA MARE (LRBM)</li>
-						<li>BUCUREST OTOPENI (LROP)</li>
-						<li>CARANSEBES (LRCS)</li> 
-						<li>CLUJ NAPOCA (LRCS)</li> 
-						<li>CONSTANTA (LRCK)</li>
-						<li>CRAIOVA (LRCV)</li>
-						<li>IASI (LRIA) </li>
-						<li>ORADEA (LROD)</li>
-						<li>SATU MARE (LRSM)</li>
-						<li>SUCEAVA (LRSV)</li>
-						<li>TARGU MURES (LRTM)</li>
-						<li>TIMISOARA (LRTR)</li>
-						<li>TULCEA (LRTC)</li>
-						<li>SIBIU (LRCD)</li>
-						<li>PLOIESTI (LRPW)</li>
-						<li>TUZLA (LRTZ)</li>
-					</ul>
-				</nav>				
+				<select name="formArrival" id="formArrival">
+					<option value="ap_lrop">LROP</option>
+					<option value="ap_lrad">LRAD</option>
+					<option value="ap_lrbc">LRBC</option>
+					<option value="ap_lrck">LRCK</option>
+				</select>
 			</div>
 		</div>
 		<div id="lower_dashboard">
 			<div id="departure_dashboard" style="float: left; width: 50%">
 				<form>
 					<label for="fname">Departing Airport:</label><br>
-					<input type="text" id="depname" name="fname"><br>
+					<input type="text" id="depname" name="fname" onclick="writeInDepartureTextBox()"><br>
 				</form> 
 			</div>
 			<div id="arrival_dashboard" style="float: left; width: 50%">
 				<form>
 					<label for="lname">Arrival Airport:</label><br>
-					<input type="text" id="arname" name="lname">
+					<input type="text" id="arname" name="lname" onclick="writeInArrivalTextBox()">
 				</form> 
 			</div>
 		</div>
 		<div>
-			<button type="button" onclick="generateMap()">Generate Map</button>
-			<button type="button" onclick="focusOnArrivalAirport()">Focus view on Arrival Airport</button>
-			<button type="button" onclick="focusOnDepartureAirport()">Focus view on Departure Airport</button>
+			<div id="checkbox_form" style="float: left; width: 50%">
+				<input type="checkbox" name="chk" value="obstacles">Show Obstacles<br>  
+				<input type="checkbox" name="chk" value="runway">Show Runways<br>  
+				<input type="checkbox" name="chk" value="aerodromes">Show All Airports<br>  
+				<input type="checkbox" name="chk" value="navaids">Show Navaids<br>  
+				<br>  
+			</div>
+			<div id="buttons_dashboard" style="float: right; width: 50%">				
+				<button type="button" onclick="focusOnArrivalAirport()">Focus view on Arrival Airport</button>
+				<button type="button" onclick="focusOnDepartureAirport()">Focus view on Departure Airport</button><br>
+				<input type="button" onclick='selects()' value="Select All"/>  
+				<input type="button" onclick='deSelect()' value="Deselect All"/> 
+			</div>
+		</div>
+		<div id="generatemap_button" style="float: center; width: 50%">
+			<button type="button" style="text-align:center" onclick="generateMap()">Generate Map</button><br>
+			<button type="button" style="text-align:center" onclick="generateMap()">Display Weather</button><br>
+			<label for="fname">Departing Airport:</label><br>
+			<input type="text" id="depname" name="fname" onclick="writeInDepartureTextBox()"><br>
 		</div>
 	</div>
 		

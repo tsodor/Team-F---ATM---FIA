@@ -50,31 +50,36 @@ async function getAPI(map,userSettings) {
 	const {lat, lon} = data;
 	latAp = lat;
 	lonAp = lon;
-
+	userSettings.set('nearestAirport_coords',[latAp,lonAp])
+	console.log("updating userSettings with chosen Ap coords:(getAPI)")
+	console.log(userSettings);
 	plotGeolocation(map, userSettings, latAp, lonAp);
 	addMarker(latAp, lonAp);
 
-
-	const datarunway = data.runways;
-	for (var i = 0; i < datarunway.length; i++) {
-		for(var j=0; j<datarunway[i].navaids.length; j++){
-			var obj=datarunway[i].navaids[j];
-			var latnav=obj.lat;
-			var lonnav=obj.lon;
-
-			addMarker(latnav, lonnav);
+	if(userSettings.get('navaids')=='on'){
+		const datarunway = data.runways;
+		for (var i = 0; i < datarunway.length; i++) {
+			for(var j=0; j<datarunway[i].navaids.length; j++){
+				var obj=datarunway[i].navaids[j];
+				var latnav=obj.lat;
+				var lonnav=obj.lon;
+	
+				addMarker(latnav, lonnav);
+			}
+		}
+	}
+	if(userSettings.get('runway')=='on'){
+		for (var k = 0; k< datarunway.length; k++) {
+			for(var p=0; p<datarunway[k].ends.length; p++){
+				var obj2=datarunway[k].ends[p];
+				var latends=obj2.lat;
+				var lonends=obj2.lon;
+	
+				addMarker(latends, lonends);
+			}
 		}
 	}
 
-	for (var k = 0; k< datarunway.length; k++) {
-		for(var p=0; p<datarunway[k].ends.length; p++){
-			var obj2=datarunway[k].ends[p];
-			var latends=obj2.lat;
-			var lonends=obj2.lon;
-
-			addMarker(latends, lonends);
-		}
-	}
 
 }
 
