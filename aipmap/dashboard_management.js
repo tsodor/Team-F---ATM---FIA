@@ -12,12 +12,12 @@ let userSettings = new Map([
     ['aerodromes', 'off'],
     ['navaids', 'off'],
     ['aerodromeNear', 'on'],       
+    ['readFromApi', 'off'],       
 ]);
 
 function generateMap(){
     setup();
     g_arrivalAiport="";
-
 }
 
 //Getter/Setter Text Buttons
@@ -72,6 +72,21 @@ function readFormChosenArrivalAirport(){
     else{
         g_arrivalAiport="LRAD";
     }
+    console.log("chosen arrival airport is (readFromArrivalAirport())")
+    console.log(arrivalApOption.value);   
+    userSettings.set("departure_airport_textbox",arrivalApOption.value);
+}
+function readFromChosenArrivalAirport(){
+    var arrivalApOption = document.getElementById("arname");
+    console.log("chosen arrival airport is (readFromArrivalAirport())")
+    console.log(arrivalApOption.value);   
+    userSettings.set("arrival_airport_textbox",arrivalApOption.value.toLowerCase());
+}
+function readFromChosenDepartureAirport(){
+    var departureApOption = document.getElementById("depname");
+    console.log("chosen departure airport is (readFromDepartureAirport())")
+    console.log(departureApOption.value);   
+    userSettings.set("departure_airport_textbox",departureApOption.value);
 }
 
 function selects(){  
@@ -105,6 +120,9 @@ function queryFeatures(){
                 else if(ele[i].value=="obstacles"){
                     userSettings.set("obstacles","on");
                 }
+                else if(ele[i].value=="readApi"){
+                    userSettings.set("readFromApi","on");
+                }
                 else{
                     userSettings.set("aerodromes","on");
                 }
@@ -121,21 +139,23 @@ function queryFeatures(){
 
 function updateButtonsInfo(){
 
-    clearInArrivalTextBox();
-    clearInDepartureTextBox();
+    // clearInArrivalTextBox();
+    // clearInDepartureTextBox();
 
     // -- Geologation FORM
     let geolocationOption=readFormGeolocation();
     if(geolocationOption==1){
         userSettings.set("geolocation_option",'on');
-        userSettings.set("departure_airpor_textbox",g_arrivalAiport);
+        userSettings.set("departure_airport_textbox",g_arrivalAiport);
+        writeInDepartureTextBox("lrbc")
         // writeInArrivalTextBox("test_1");
         // writeInDepartureTextBox("test_1");
     }
     else{
         userSettings.set("geolocation_option",'off');
+        writeInDepartureTextBox("lrbc")
         // clearInArrivalTextBox();
-        clearInDepartureTextBox();
+        // clearInDepartureTextBox();
     }
     // -- Geologation FORM
 
@@ -154,7 +174,8 @@ function updateButtonsInfo(){
         writeInArrivalTextBox("LRAD");
     }
     userSettings.set("departure_airport_textbox",g_arrivalAiport);
-
+    readFromChosenArrivalAirport();
+    readFromChosenDepartureAirport();
     queryFeatures();
 
     return userSettings;
@@ -162,7 +183,7 @@ function updateButtonsInfo(){
 
 
 function focusOnArrivalAirport(){
-    adocument.getElementById()
+    document.getElementById()
 }
 
 function focusOnDepartureAirport(){

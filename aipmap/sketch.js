@@ -11,7 +11,7 @@ function setup() {
 	let userSettings=updateButtonsInfo();
 	console.log("1)userSettings after updatedButtonsInfo (setup):")
 	console.log(userSettings);
-
+	
 	readAirportsFromCSV();
 	console.log("2)read airport code (setup):")
 	console.log(airports_icao_codes);
@@ -24,8 +24,14 @@ function setup() {
 	userSettings.set('nearestAirport',nearestAirport);
 	console.log("5)Update userSettings (setup):")
 	console.log(userSettings);
-
-	getAPI(map,userSettings);
+	if(userSettings.get('readFromApi')=='on'){
+		console.log("Allowed to read from API (setup)");
+		getAPI(map,userSettings,userSettings.get('departure_airport_textbox'));
+		getAPI(map,userSettings,userSettings.get('arrival_airport_textbox'));
+	}
+	else{
+		console.log("Not allowed to read from API (setup)");
+	}
 }
 
 function draw() {
@@ -41,8 +47,11 @@ function initMap() {
   console.log('Map is working');
 }
 
-async function getAPI(map,userSettings) {
-	const response = await fetch(api_url);
+async function getAPI(map,userSettings,code) {
+	var api_url_noendpoint='https://api.flightplandatabase.com/nav/airport/';
+	var api_url_withendpoint=api_url_noendpoint.concat(code);
+	console.log(api_url_withendpoint);
+	const response = await fetch(api_url_withendpoint);
 	const data = await response.json();
 	console.log("read from api the following JSON:(getAPI)")
 	console.log(data);
@@ -56,8 +65,8 @@ async function getAPI(map,userSettings) {
 	plotGeolocation(map, userSettings, latAp, lonAp);
 	addMarker(latAp, lonAp);
 
+	const datarunway = data.runways;
 	if(userSettings.get('navaids')=='on'){
-		const datarunway = data.runways;
 		for (var i = 0; i < datarunway.length; i++) {
 			for(var j=0; j<datarunway[i].navaids.length; j++){
 				var obj=datarunway[i].navaids[j];
