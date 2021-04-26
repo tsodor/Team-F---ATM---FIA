@@ -26,8 +26,8 @@ function setup() {
 	console.log(userSettings);
 	if(userSettings.get('readFromApi')=='on'){
 		console.log("Allowed to read from API (setup)");
-		getAPI(map,userSettings,userSettings.get('departure_airport_textbox'));
-		getAPI(map,userSettings,userSettings.get('arrival_airport_textbox'));
+		getAPI(map,userSettings,userSettings.get('departure_airport_textbox'),"departure");
+		getAPI(map,userSettings,userSettings.get('arrival_airport_textbox'), "arrival");
 	}
 	else{
 		console.log("Not allowed to read from API (setup)");
@@ -47,7 +47,10 @@ function initMap() {
   console.log('Map is working');
 }
 
-async function getAPI(map,userSettings,code) {
+async function getAPI(map,userSettings,code,status) {
+	console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+	console.log(status);
+
 	var api_url_noendpoint='https://api.flightplandatabase.com/nav/airport/';
 	var api_url_withendpoint=api_url_noendpoint.concat(code);
 	console.log(api_url_withendpoint);
@@ -59,11 +62,24 @@ async function getAPI(map,userSettings,code) {
 	const {lat, lon} = data;
 	latAp = lat;
 	lonAp = lon;
+	if(status=="departure"){
+		userSettings.set('departure_airport_coords',[lat,lon]);
+	}
+	else{
+		userSettings.set('arrival_airport_coords',[lat,lon]);
+	}
+	console.log("~~~~Most updated userSettings (getAPI):");
+	console.log(userSettings);
+
 	userSettings.set('nearestAirport_coords',[latAp,lonAp])
 	console.log("updating userSettings with chosen Ap coords:(getAPI)")
 	console.log(userSettings);
+	latestMapUpdate(userSettings);
 	plotGeolocation(map, userSettings, latAp, lonAp);
-	addMarker(latAp, lonAp);
+
+	if(userSettings.get('aerodromes')=='on'){
+		addMarker(latAp, lonAp);
+	}
 
 	const datarunway = data.runways;
 	if(userSettings.get('navaids')=='on'){

@@ -20,6 +20,12 @@ function generateMap(){
     g_arrivalAiport="";
 }
 
+function latestMapUpdate(update){
+    userSettings=update;
+    console.log("Latest update of userMap in (latestMapUpdate)")
+    console.log(userSettings);
+}
+
 //Getter/Setter Text Buttons
 function writeInArrivalTextBox(text){
     var arrTexttBox = document.getElementById("arname");
@@ -183,10 +189,22 @@ function updateButtonsInfo(){
 
 
 function focusOnArrivalAirport(){
-    document.getElementById()
+    var coords=userSettings.get('departure_airport_coords');
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    console.log(coords)
+    var lat=coords[0];
+    var lon=coords[1];
+    var center = new google.maps.LatLng(lat,lon);
+    setCenterAndZoom(center,10);
 }
 
 function focusOnDepartureAirport(){
-    alert("Test focus view");
+    var coords=userSettings.get('arrival_airport_coords');
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    console.log(coords)
+    var lat=coords[0];
+    var lon=coords[1];
+    var center = new google.maps.LatLng(lat,lon);
+    setCenterAndZoom(center,10);
 }
 
