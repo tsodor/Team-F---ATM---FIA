@@ -42,6 +42,12 @@ function plotNearAirport(map,usermap,coords){
     
 }
 
+function drawRwy(map,latRwy0,lonRwy0)
+{
+    plotGeolocation(map, latRwy0, lonRwy0);
+    addMarker(latRwy0, lonRwy0);
+}
+
 //Functions about map stuff TODO:put in separate file
 
 function addMarker(lat,lon){
