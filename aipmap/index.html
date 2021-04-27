@@ -19,20 +19,40 @@
 </head>
 <body>	
 	<div id="user_settings" style="float: left; width: 50%">
-		<p>
-			Your current position is somewhere around...<br />
-			latitude: <span id="latitude">&deg;</span><br />
-			longitude: <span id="longitude">&deg;</span>
-		</p>
-		<p>
-			Your nearest Airport is<br />
-			latitude: <span id="airportLat">&deg;</span><br />
-			longitude: <span id="airportLon">&deg;</span>
-		</p>
-		<p>
-			The distamce is<br />
-			distance: <span id="dist">&deg;</span>
-		</p>
+		<div>
+			<div id="FIRST_left" style="float: left; width: 50%">
+				<p>
+					Your current position: (IP bound)<br />
+					latitude: <span id="latitude">&deg;</span><br />
+					longitude: <span id="longitude">&deg;</span>
+				</p>
+				<p>
+					Your nearest Airport is<br />
+					code: <span id="nearest_code"></span><br />
+					latitude: <span id="airportLat">&deg;</span><br />
+					longitude: <span id="airportLon">&deg;</span>
+				</p>
+				<p>
+					The distancece to it is <span id="dist_nearest"></span> km<br />
+				</p>
+			</div>
+			<div id="FIRST_right" style="float: right; width: 50%"> 
+				<p>
+					Destination airport situated at:<br />
+					latitude: <span id="latitude">&deg;</span><br />
+					longitude: <span id="longitude">&deg;</span>
+				</p>
+				<p>
+					Your nearest Airport is<br />
+					latitude: <span id="airportLat">&deg;</span><br />
+					longitude: <span id="airportLon">&deg;</span>
+				</p>
+				<p>
+					The distance form arrival to departure airports<br />
+					distance: <span id="dist"></span>
+				</p>
+			</div>
+		</div>
 		<div id="upper_dashboard">
 			<div id="usersettings_dashboard" style="float: left; width: 50%">
 				<h2>Departure Airport</h2>
@@ -67,6 +87,7 @@
 		</div>
 		<div>
 			<div id="checkbox_form" style="float: left; width: 50%">
+				<h3>Select features</h3>
 				<input type="checkbox" name="chk" value="obstacles">Show Obstacles<br>  
 				<input type="checkbox" name="chk" value="runway">Show Runways<br>  
 				<input type="checkbox" name="chk" value="aerodromes">Show All Airports<br>  
@@ -74,7 +95,8 @@
 				<input type="checkbox" name="chk" value="readApi">Read info from API<br>  
 				<br>  
 			</div>
-			<div id="buttons_dashboard" style="float: right; width: 50%">				
+			<div id="buttons_dashboard" style="float: right; width: 50%">	
+				<h3>Navigation Buttons</h3>			
 				<button type="button" onclick="focusOnArrivalAirport()">Focus view on Arrival Airport</button>
 				<button type="button" onclick="focusOnDepartureAirport()">Focus view on Departure Airport</button><br>
 				<input type="button" onclick='selects()' value="Select All"/>  
