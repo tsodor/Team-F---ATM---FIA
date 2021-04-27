@@ -1,8 +1,8 @@
 let map;
 const api_url = 'https://api.flightplandatabase.com/nav/airport/lrop';
 const api_url_noendpoint='https://api.flightplandatabase.com/nav/airport/';
-let airports_icao_codes=readAirportsFromCSV();
-let airports_coordinates;
+
+let b_alreadyread=0;
 
 function setup() {
 	initMap();
@@ -11,19 +11,9 @@ function setup() {
 	let userSettings=updateButtonsInfo();
 	console.log("1)userSettings after updatedButtonsInfo (setup):")
 	console.log(userSettings);
-	
-	readAirportsFromCSV();
-	console.log("2)read airport code (setup):")
-	console.log(airports_icao_codes);
-	console.log("3)read airport coordinates (setup):")
-	console.log(airports_coordinates);
-	console.log("4)read nearest airport after getNearestAirportICAOCode (setup):")
-	let nearestAirport=getNearestAirportICAOCode(airports_coordinates);
-	console.log(nearestAirport);
 
-	userSettings.set('nearestAirport',nearestAirport);
-	console.log("5)Update userSettings (setup):")
-	console.log(userSettings);
+	plotGeolocation(map,userSettings);
+
 	if(userSettings.get('readFromApi')=='on'){
 		console.log("Allowed to read from API (setup)");
 		getAPI(map,userSettings,userSettings.get('departure_airport_textbox'),"departure");
@@ -48,7 +38,7 @@ function initMap() {
 }
 
 async function getAPI(map,userSettings,code,status) {
-	console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+	console.log("$$$ getApi with status:")
 	console.log(status);
 
 	var api_url_noendpoint='https://api.flightplandatabase.com/nav/airport/';
@@ -74,8 +64,8 @@ async function getAPI(map,userSettings,code,status) {
 	userSettings.set('nearestAirport_coords',[latAp,lonAp])
 	console.log("updating userSettings with chosen Ap coords:(getAPI)")
 	console.log(userSettings);
-	latestMapUpdate(userSettings);
-	plotGeolocation(map, userSettings, latAp, lonAp);
+	latestMapUpdate(userSettings);	
+	plotGeolocationAndAirport(map, userSettings, latAp, lonAp);
 
 	if(userSettings.get('aerodromes')=='on'){
 		addMarker(latAp, lonAp);
@@ -106,20 +96,6 @@ async function getAPI(map,userSettings,code,status) {
 	}
 
 
-}
-
-function calculateDistance(latapi,lonapi){
-	// latAp=latapi;
-	// lonAp=lonapi;
-	// console.log(latAp);
-	// addMarker(latAp,lonAp);
-	// var obj1= new google.maps.LatLng(22.3, 44.3);
-	// var obj2= new google.maps.LatLng(latAp, lonAp);
-	// var dist=google.maps.geometry.spherical.computeDistanceBetween(
-	// 	obj1,obj2
-	// );
-	// return dist;
-	return 2;
 }
 
 async function getAirportsCodes(lon,lat){
@@ -154,8 +130,50 @@ async function readAirportsFromCSV(){
 	return fetch("airports.csv")
     .then(response => response.text())
     .then(text => {
-	  airports_icao_codes=text.split(',');
-	  updateAirportsCoordinates(airports_icao_codes);
+		const rows=text.split('\n').slice(0);
+		const codes=rows[0].split(',');
+		const coords_a=rows[1].split(',');
+		updateAirportsCoordinates(codes);
+		console.log(rows);
+		console.log(codes);
+		console.log(coords_a);
+		let j=0;
+		for (i = 0; i <codes.length; i++) {
+			airports_coordinates.set(codes[i],{"lat":coords_a[j],"lon":coords_a[j+1]});
+			j=j+2;
+		}
+		console.log("updated airport_coordinates (readAirportFromCSV)")	
+		console.log(airports_coordinates)	
+		console.log("updated userSettings (readAirportFromCSV)")	
+		console.log(userSettings)
+		
+		const my_coords=userSettings.get('geolocation_coords');
+		console.log(my_coords)
+		const my_coords_point={"lat":my_coords[0], "lon":my_coords[1]};
+		console.log(my_coords_point)
+
+		console.log("@@@@@@@@@@@@@@@")
+		let min_dist=99999999999999;
+		let min_dist_code="test";
+		let min_lat,min_lon;
+		for (let [key, value] of airports_coordinates) {
+			console.log(key + " = " + value.lat + "/" + value.lon);
+			let current=getDistance(my_coords_point,value);
+			if(current<min_dist){
+				min_dist=Math.ceil(current);;
+				min_dist_code=key;
+				min_lat=value.lat;
+				min_lon=value.lon;
+			}
+		}
+		console.log("min dist")
+		console.log(min_dist)
+		console.log(min_dist_code)
+		
+		document.getElementById('airportLat').textContent=min_lat;
+		document.getElementById('airportLon').textContent=min_lon;
+		document.getElementById('nearest_code').textContent=min_dist_code.toUpperCase();
+		document.getElementById('dist_nearest').textContent=min_dist/1000;
     });
 }
 
@@ -167,34 +185,23 @@ async function updateAirportsCoordinates(codes){
 		airport_coords.set(element,{"lat":"test","lon":"test"});
 	})
 	airports_coordinates=airport_coords;
-	airports_icao_codes.forEach(element=>{
-		getAirportLatLonFromAPI(element);
-	})
-	console.log("updated map (updateAirportCoordinates):")
-	console.log(airports_coordinates);
+	// console.log("updated map (updateAirportCoordinates):")
+	// console.log(airports_coordinates);
 }
 
-async function getAirportLatLonFromAPI(airport_code){
-	var api_url_withendpoint=api_url_noendpoint.concat(airport_code);
-	console.log(api_url_withendpoint);
-	const response = await fetch(api_url_withendpoint);
-    const data = await response.json();
-    const {lat, lon}=data;
-	console.log("read from api the following coordinates (getAiportLatLonFromAPI):")
-    console.log({lat:lat,lon:lon});
-	airports_coordinates.set(airport_code,{lat:lat,lon:lon});
-}
-
-function getNearestAirportICAOCode(){ //FIXED ON LROP BUT TO BE CHANGED FOR NEXT DEMO
-	console.log("these are airports coordinates seen here (getNearestAirportICAOCode)")
-	console.log(airports_coordinates)
-	var min_dist=9999999999;
-	
-	for (let [key, value] of airports_coordinates) {
-		console.log(key + " = " + value.lat);
-		var test=calculateDistance(value.lat,value.lon);
-		console.log("distance in this iteration is: (getNearestAirportICAOCode)");
-		console.log(test);
-	}
-	return "lrop"
-}
+var rad = function(x) {
+	return x * Math.PI / 180;
+  };
+  
+var getDistance = function(p1, p2) {
+	var R = 6378137; // Earth’s mean radius in meter
+	var dLat = rad(p2.lat - p1.lat);
+	var dLong = rad(p2.lon - p1.lon);
+	var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+		Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) *
+		Math.sin(dLong / 2) * Math.sin(dLong / 2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	var d = R * c;
+	console.log(d);
+	return d; // returns the distance in meter
+};

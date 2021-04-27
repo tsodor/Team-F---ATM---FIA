@@ -190,8 +190,6 @@ function updateButtonsInfo(){
 
 function focusOnArrivalAirport(){
     var coords=userSettings.get('departure_airport_coords');
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    console.log(coords)
     var lat=coords[0];
     var lon=coords[1];
     var center = new google.maps.LatLng(lat,lon);
@@ -200,8 +198,6 @@ function focusOnArrivalAirport(){
 
 function focusOnDepartureAirport(){
     var coords=userSettings.get('arrival_airport_coords');
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    console.log(coords)
     var lat=coords[0];
     var lon=coords[1];
     var center = new google.maps.LatLng(lat,lon);
