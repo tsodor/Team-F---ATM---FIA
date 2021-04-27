@@ -1,4 +1,7 @@
-function plotGeolocation(map,usermap,latAp,lonAp){
+let mylat,mylong;
+let airports_coordinates;
+
+function plotGeolocationAndAirport(map,usermap,latAp,lonAp){
     if(usermap.get('geolocation_option')=='on'){
         if('geolocation' in navigator) {
             console.log("location available");
@@ -8,17 +11,10 @@ function plotGeolocation(map,usermap,latAp,lonAp){
                 const lat=position.coords.latitude;
                 const lon=position.coords.longitude;
 
-                // const ICAOcode=getAirportsCodes(lat,lon);
-                // console.log("Sebi, look here");
-                // console.log(ICAOcode);
+                usermap.set('geolocation_coords',[lat,lon])
+                console.log("updating userSettings with Geolocation coords:(plotGeolocation)")
+                console.log(usermap);
 
-                document.getElementById('latitude').textContent=lat;
-                document.getElementById('longitude').textContent=lon;
-                document.getElementById('airportLat').textContent=latAp;
-                document.getElementById('airportLon').textContent=lonAp;
-
-                
-                
                 var lineCoordinates = [
                     {lat: lat, lng: lon},
                     {lat: latAp, lng: lonAp},
@@ -37,6 +33,42 @@ function plotGeolocation(map,usermap,latAp,lonAp){
         console.log(usermap.geolocation_option);
     }
 
+}
+
+function plotGeolocation(map,usermap){
+    let mycoords=[];
+    
+    if('geolocation' in navigator) {
+        console.log("location available");
+        console.log(usermap.get('geolocation_option'));
+        navigator.geolocation.getCurrentPosition(position => {
+            console.log(position.coords);
+            const lat=position.coords.latitude;
+            const lon=position.coords.longitude;
+            mycoords=[lat,lon];
+
+            document.getElementById('latitude').textContent=lat;
+            document.getElementById('longitude').textContent=lon;
+            document.getElementById('airportLat').textContent="_";
+            document.getElementById('airportLon').textContent="_";
+            document.getElementById('nearest_code').textContent="_";
+            document.getElementById('dist_nearest').textContent="_";
+                            
+            usermap.set('geolocation_coords',[lat,lon])
+            console.log("updating userSettings with Geolocation coords:(plotGeolocation)")
+            console.log(usermap);
+
+            addMarker(lat,lon);
+            var center = new google.maps.LatLng(lat,lon);
+            setCenterAndZoom(center,10);
+
+            console.log("@#@#@#@#@#@#@#@#@#@#stuff going on")
+            readAirportsFromCSV();
+        });
+    }else {
+        console.log("location not available");            
+    }
+      
 }
 
 function plotNearAirport(map,usermap,coords){
@@ -84,7 +116,6 @@ function setCenterAndZoom(center,zoom){
 function setZoom(zoom){
     map.setZoom(zoom);
 }
-
 
 ///////////////////////////////////////////////////////
 
