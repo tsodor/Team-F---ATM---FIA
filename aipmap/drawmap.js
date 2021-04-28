@@ -80,6 +80,12 @@ function plotNearAirport(map,usermap,coords){
     
 }
 
+function drawRwy(map,latRwy0,lonRwy0)
+{
+    plotGeolocation(map, latRwy0, lonRwy0);
+    addMarker(latRwy0, lonRwy0);
+}
+
 //Functions about map stuff TODO:put in separate file
 
 function addMarker(lat,lon){
@@ -111,5 +117,38 @@ function setZoom(zoom){
     map.setZoom(zoom);
 }
 
-///////////////////////////////////////////////////////
 
+
+///////////////////////////////////////////////////////
+function getWeatherArrival()
+{
+    getWeather(userSettings,userSettings.get('arrival_airport_textbox'), "arrival");
+}
+
+function getWeatherDeparture()
+{
+    getWeather(userSettings,userSettings.get('departure_airport_textbox'),"departure");
+}
+
+
+async function getWeather(userSettings,code,status)
+{
+    console.log("$$$ getApi with status:")
+    console.log(status);
+
+    var api_url_noendpoint='https://api.flightplandatabase.com/nav/airport/';
+    var api_url_withendpoint=api_url_noendpoint.concat(code);
+    console.log(api_url_withendpoint);
+    const response = await fetch(api_url_withendpoint);
+    const data = await response.json();
+    console.log("read from api the following JSON:(getAPI)")
+    console.log(data);
+    var weather_metar = data.weather.METAR;
+    var weather_taf=data.weather.TAF;
+
+    console.log("weather metar:= ",weather_metar);
+    console.log("weather taf:= ",weather_taf);
+    var div=document.getElementById('weather_text');
+    div.innerHTML="Weather from Metar: "+weather_metar+" Weather from taf: "+weather_taf;
+
+}
