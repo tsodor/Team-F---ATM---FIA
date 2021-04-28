@@ -29,6 +29,7 @@ function draw() {
 	
 }
 
+
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
 	center: { lat: 44.5, lng: 26 },
@@ -97,6 +98,9 @@ async function getAPI(map,userSettings,code,status) {
 
 
 }
+
+
+
 
 async function getAirportsCodes(lon,lat){
 	const response=await fetch("airports.csv");
