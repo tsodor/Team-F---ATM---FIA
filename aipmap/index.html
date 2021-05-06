@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,8 +39,8 @@
 			<div id="FIRST_right" style="float: right; width: 50%"> 
 				<p>
 					Destination airport situated at:<br />
-					latitude: <span id="latitude">&deg;</span><br />
-					longitude: <span id="longitude">&deg;</span>
+					latitude: <span id="dest_latitude">&deg;</span><br />
+					longitude: <span id="dest_longitude">&deg;</span>
 				</p>
 				<p>
 					Your nearest Airport is<br />
@@ -108,14 +108,19 @@
 		</div>
 		<div id="generatemap_button" style="float: center; width: 50%">
 			<button type="button" style="text-align:center" onclick="generateMap()">Generate Map</button><br>
-			<button type="button" style="text-align:center" onclick="generateMap()">Display Weather</button><br>
+			<button type="button" style="text-align:center" onclick="getWeatherArrival()">Display Weather Arrival</button><br>
+			<button type="button" style="text-align:center" onclick="getWeatherDeparture()">Display Weather Departure</button><br>
 		</div>
 	</div>
 		
     <div id="map" style="float: right; width: 50%"></div>
+	<div id="weather_text"></div>
+
+
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSGWLGsVB1CywI7sQjoPHUh8NwB6cfTtY&callback=initMap&libraries=&v=weekly"
       async
     ></script>
+
 </body>
 </html>
