@@ -65,9 +65,12 @@
 				<h2>Arrival Airport</h2>
 				<select name="formArrival" id="formArrival">
 					<option value="ap_lrop">LROP</option>
-					<option value="ap_lrad">LRAD</option>
 					<option value="ap_lrbc">LRBC</option>
 					<option value="ap_lrck">LRCK</option>
+					<option value="ap_lrtc">LRTC</option>
+					<option value="ap_lrtr">LRTR</option>
+					<option value="ap_lrcl">LRCL</option>
+					<option value="ap_lrtm">LRTM</option>
 				</select>
 			</div>
 		</div>
@@ -97,8 +100,8 @@
 			</div>
 			<div id="buttons_dashboard" style="float: right; width: 50%">	
 				<h3>Navigation Buttons</h3>			
-				<button type="button" onclick="focusOnArrivalAirport()">Focus view on Arrival Airport</button>
-				<button type="button" onclick="focusOnDepartureAirport()">Focus view on Departure Airport</button><br>
+				<button type="button" onclick="focusOnArrivalAirport()">Focus view on Departure Airport</button>
+				<button type="button" onclick="focusOnDepartureAirport()">Focus view on Arrival Airport</button><br>
 				<input type="button" onclick='selects()' value="Select All"/>  
 				<input type="button" onclick='deSelect()' value="Deselect All"/> 
 			</div>
@@ -106,8 +109,6 @@
 		<div id="generatemap_button" style="float: center; width: 50%">
 			<button type="button" style="text-align:center" onclick="generateMap()">Generate Map</button><br>
 			<button type="button" style="text-align:center" onclick="generateMap()">Display Weather</button><br>
-			<label for="fname">Departing Airport:</label><br>
-			<input type="text" id="depname" name="fname" onclick="writeInDepartureTextBox()"><br>
 		</div>
 	</div>
 		

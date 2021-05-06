@@ -174,6 +174,7 @@ async function readAirportsFromCSV(){
 		document.getElementById('airportLon').textContent=min_lon;
 		document.getElementById('nearest_code').textContent=min_dist_code.toUpperCase();
 		document.getElementById('dist_nearest').textContent=min_dist/1000;
+		writeInDepartureTextBox(min_dist_code.toUpperCase());
     });
 }
 

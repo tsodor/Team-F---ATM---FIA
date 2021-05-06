@@ -31,6 +31,7 @@ function plotGeolocationAndAirport(map,usermap,latAp,lonAp){
     else{
         console.log("didnt happen");
         console.log(usermap.geolocation_option);
+        clearInDepartureTextBox();
     }
 
 }

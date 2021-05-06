@@ -75,8 +75,20 @@ function readFormChosenArrivalAirport(){
     else if(arrivalApOption.value=="ap_lrck"){
         g_arrivalAiport="LRCK";
     }
+    else if(arrivalApOption.value=="ap_lrtc"){
+        g_arrivalAiport="LRTC";
+    }
+    else if(arrivalApOption.value=="ap_lrtr"){
+        g_arrivalAiport="LRTR";
+    }
+    else if(arrivalApOption.value=="ap_lrcl"){
+        g_arrivalAiport="LRCL";
+    }
+    else if(arrivalApOption.value=="ap_lrtm"){
+        g_arrivalAiport="LRTM";
+    }
     else{
-        g_arrivalAiport="LRAD";
+        g_arrivalAiport="Not Found in API";
     }
     console.log("chosen arrival airport is (readFromArrivalAirport())")
     console.log(arrivalApOption.value);   
@@ -92,7 +104,7 @@ function readFromChosenDepartureAirport(){
     var departureApOption = document.getElementById("depname");
     console.log("chosen departure airport is (readFromDepartureAirport())")
     console.log(departureApOption.value);   
-    userSettings.set("departure_airport_textbox",departureApOption.value);
+    userSettings.set("departure_airport_textbox",departureApOption.value.toLowerCase());
 }
 
 function selects(){  
@@ -153,13 +165,13 @@ function updateButtonsInfo(){
     if(geolocationOption==1){
         userSettings.set("geolocation_option",'on');
         userSettings.set("departure_airport_textbox",g_arrivalAiport);
-        writeInDepartureTextBox("lrbc")
+        // writeInDepartureTextBox("lrbc")
         // writeInArrivalTextBox("test_1");
         // writeInDepartureTextBox("test_1");
     }
     else{
         userSettings.set("geolocation_option",'off');
-        writeInDepartureTextBox("lrbc")
+        // writeInDepartureTextBox("lrbc")
         // clearInArrivalTextBox();
         // clearInDepartureTextBox();
     }
@@ -167,19 +179,8 @@ function updateButtonsInfo(){
 
     // -- Arrival Airport FORM
     readFormChosenArrivalAirport();
-    if(g_arrivalAiport=="LROP"){
-        writeInArrivalTextBox("LROP"); 
-    }
-    else if(g_arrivalAiport=="LRBC"){
-        writeInArrivalTextBox("LRBC");
-    }
-    else if(g_arrivalAiport=="LRCK"){
-        writeInArrivalTextBox("LRCK");
-    }
-    else{
-        writeInArrivalTextBox("LRAD");
-    }
-    userSettings.set("departure_airport_textbox",g_arrivalAiport);
+    writeInArrivalTextBox(g_arrivalAiport); 
+    userSettings.set("arrival_airport_textbox",g_arrivalAiport);
     readFromChosenArrivalAirport();
     readFromChosenDepartureAirport();
     queryFeatures();
