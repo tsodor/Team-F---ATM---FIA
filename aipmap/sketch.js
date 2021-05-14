@@ -119,9 +119,6 @@ async function getAPI(map,userSettings,code,status) {
 
 }
 
-
-
-
 async function getAirportsCodes(lon,lat){
 	const response=await fetch("airports.csv");
 	const data=await response.text();
