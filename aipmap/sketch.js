@@ -58,6 +58,14 @@ async function getAPI(map,userSettings,code,status) {
 	}
 	else{
 		userSettings.set('arrival_airport_coords',[lat,lon]);
+		document.getElementById('dest_latitude').textContent=lat;
+        document.getElementById('dest_longitude').textContent=lon;
+		const {elevation,magneticVariation}=data;
+		document.getElementById('elev_dest').textContent=elevation;
+		document.getElementById('var_dest').textContent=magneticVariation;
+		const {IATA,name}=data;
+		document.getElementById('iata_dest').textContent=IATA;
+		document.getElementById('name_dest').textContent=name;
 	}
 	console.log("~~~~Most updated userSettings (getAPI):");
 	console.log(userSettings);
