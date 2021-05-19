@@ -66,6 +66,22 @@ async function getAPI(map,userSettings,code,status) {
 		const {IATA,name}=data;
 		document.getElementById('iata_dest').textContent=IATA;
 		document.getElementById('name_dest').textContent=name;
+
+		if(userSettings.get('geolocation_option')=='off'){
+			var lat_dest=userSettings.get('departure_airport_coords')[0];
+			var lon_dest=userSettings.get('departure_airport_coords')[1];
+			var lat_ar=userSettings.get('arrival_airport_coords')[0];
+			var lon_ar=userSettings.get('arrival_airport_coords')[1];
+			var lineCoordinates = [
+				{lat:lat_dest, lng: lon_dest},
+				{lat: lat_ar, lng: lon_ar},
+			];
+			addLine_notgeolocation(lineCoordinates)
+			console.log("Adding line NOT geolocation")
+			console.log(userSettings)
+			console.log(lat_ar);
+			console.log(lon_dest);
+		}
 	}
 	console.log("~~~~Most updated userSettings (getAPI):");
 	console.log(userSettings);
@@ -87,9 +103,12 @@ async function getAPI(map,userSettings,code,status) {
 				var obj=datarunway[i].navaids[j];
 				var latnav=obj.lat;
 				var lonnav=obj.lon;
+				var name=obj.name;
+				var range=obj.range;
+				var freq=obj.frequency;
 	
 
-				addNavaid(latnav, lonnav);
+				addNavaid(latnav, lonnav, freq,name,range);
 			}
 		}
 	}
@@ -99,19 +118,20 @@ async function getAPI(map,userSettings,code,status) {
 				var obj2=datarunway[k].ends[p];
 				var latends=obj2.lat;
 				var lonends=obj2.lon;
+				var rwy=obj2.ident;
 				var obj3=datarunway[k].ends[p+1];
 				console.log(obj3);
 				var latends2=obj3.lat;
 				var lonends2=obj3.lon;
 
 	
-				addEnds(latends, lonends);
+				addEnds(latends, lonends,rwy);
 
-				var flightPlanCoordinates = [
-					{ lat: latends, lng: lonends },
-					{ lat: latends2, lng: lonends2 }
-				];
-				addRunwayPath(flightPlanCoordinates);
+				// var flightPlanCoordinates = [
+				// 	{ lat: latends, lng: lonends },
+				// 	{ lat: latends2, lng: lonends2 }
+				// ];
+				// addRunwayPath(flightPlanCoordinates);
 			}
 		}
 	}
@@ -179,6 +199,8 @@ async function readAirportsFromCSV(){
 		let min_lat,min_lon;
 		for (let [key, value] of airports_coordinates) {
 			console.log(key + " = " + value.lat + "/" + value.lon);
+			addAiport(value.lat,value.lon)
+			console.log("Adding AIRPORT")
 			let current=getDistance(my_coords_point,value);
 			if(current<min_dist){
 				min_dist=Math.ceil(current);;

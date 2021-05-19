@@ -194,7 +194,7 @@ function focusOnArrivalAirport(){
     var lat=coords[0];
     var lon=coords[1];
     var center = new google.maps.LatLng(lat,lon);
-    setCenterAndZoom(center,10);
+    setCenterAndZoom(center,13);
 }
 
 function focusOnDepartureAirport(){
@@ -202,6 +202,6 @@ function focusOnDepartureAirport(){
     var lat=coords[0];
     var lon=coords[1];
     var center = new google.maps.LatLng(lat,lon);
-    setCenterAndZoom(center,10);
+    setCenterAndZoom(center,13);
 }
 

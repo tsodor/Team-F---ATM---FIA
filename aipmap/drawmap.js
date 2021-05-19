@@ -75,7 +75,7 @@ function plotGeolocation(map,usermap){
 function plotNearAirport(map,usermap,coords){
     if(usermap.get('aerodromeNear')=='on'){
         console.log('calling plotNearAirport');
-        addLine(coords);
+        addLine_geolocation(coords);
         setZoom(10);
     }
     
@@ -89,8 +89,9 @@ function drawRwy(map,latRwy0,lonRwy0)
 
 //--------------------------------------------------------------------MONICA
 
-function addNavaid(latnav,lonnav){
+function addNavaid(latnav,lonnav,freq,name,range){
     console.log('adding Navaid');
+    console.log(freq)
     var position = new google.maps.LatLng(latnav,lonnav);
     var image = new google.maps.MarkerImage(
         'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.faa.gov%2Fabout%2Foffice_org%2Fheadquarters_offices%2Fang%2Foffices%2Ftc%2Flibrary%2Fstoryboard%2Fimg%2Fui%2FdetailedButtons%2Fnavaids_icon.png&f=1&nofb=1',
@@ -102,12 +103,12 @@ function addNavaid(latnav,lonnav){
         position: position,
         map,
         icon: image,
-        title: "Naviad",
+        title: "NAVAID\nFreq."+freq.toString()+"Hz\n"+name+"\nRange"+range.toString(),
     });
 
 }
 
-function addEnds(latends,lonends){
+function addEnds(latends,lonends,name){
     console.log('adding ends');
     var position2 = new google.maps.LatLng(latends,lonends);
     var image2 = new google.maps.MarkerImage(
@@ -120,7 +121,7 @@ function addEnds(latends,lonends){
         position: position2,
         map,
         icon: image2,
-        title: "Runway",
+        title: "Runway\n" + name,
     });
 
 }
@@ -139,6 +140,26 @@ function addRunwayPath(flightPlanCoordinates){
     RunwayPath.setMap(map);
 }
 
+function addAiport(latends,lonends){
+    console.log("Adding AIRPORT")
+    console.log(latends)
+    console.log(lonends)
+    var position2 = new google.maps.LatLng(latends,lonends);
+    var image2 = new google.maps.MarkerImage(
+        'https://play-lh.googleusercontent.com/-Ccz47oJEvO_mEmTxex6X7UN35q-9eeGG-XLn5bM1VRfGroluvUf03ImuQ2X1KHvjqA',
+        new google.maps.Size(71, 71),
+        new google.maps.Point(0, 0),
+        new google.maps.Point(17, 34),
+        new google.maps.Size(25, 25));
+        new google.maps.Marker({
+            position: position2,
+            map,
+            icon: image2,
+            title: "Airport",
+    });
+
+}
+
 
 //--------------------------------------------------------------------MONICA
 
@@ -154,13 +175,23 @@ function addMarker(lat,lon){
     });
 }
 
-function addLine(coords){
+function addLine_geolocation(coords){
     console.log('adding Line');
     var linePath = new google.maps.Polyline({
         path: coords,
         geodesic: true,
-        strokeColor: '#FF0000'
+        strokeColor: '#ff9000'
         })
+    linePath.setMap(map);
+}
+
+function addLine_notgeolocation(coords){
+    console.log('adding Line');
+    var linePath = new google.maps.Polyline({
+        path: coords,
+        geodesic: true,
+        strokeColor: '#b01164'
+    })
     linePath.setMap(map);
 }
 
