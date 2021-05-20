@@ -36,6 +36,10 @@ function initMap() {
 	zoom: 8,
   });
   console.log('Map is working');
+  setTimeout(()=>{
+  	document.getElementById("defaultCanvas0").remove();
+
+  },1000)
 }
 
 async function getAPI(map,userSettings,code,status) {
