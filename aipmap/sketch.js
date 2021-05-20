@@ -123,19 +123,9 @@ async function getAPI(map,userSettings,code,status) {
 				var latends=obj2.lat;
 				var lonends=obj2.lon;
 				var rwy=obj2.ident;
-				var obj3=datarunway[k].ends[p+1];
-				console.log(obj3);
-				var latends2=obj3.lat;
-				var lonends2=obj3.lon;
 
-	
 				addEnds(latends, lonends,rwy);
 
-				// var flightPlanCoordinates = [
-				// 	{ lat: latends, lng: lonends },
-				// 	{ lat: latends2, lng: lonends2 }
-				// ];
-				// addRunwayPath(flightPlanCoordinates);
 			}
 		}
 	}
