@@ -234,7 +234,7 @@ async function getWeather(userSettings,code,status)
     console.log("weather metar:= ",weather_metar);
     console.log("weather taf:= ",weather_taf);
     var div=document.getElementById('weather_text');
-    div.innerHTML="Weather from Metar: "+weather_metar+" Weather from taf: "+weather_taf;
+    div.innerHTML="METAR: "+weather_metar+"\nTAF: "+weather_taf;
 
 }
 
