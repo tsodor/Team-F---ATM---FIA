@@ -90,8 +90,23 @@ function drawRwy(map,latRwy0,lonRwy0)
 //--------------------------------------------------------------------MONICA
 
 function addNavaid(latnav,lonnav,freq,name,range){
-    console.log('adding Navaid');
+    console.log('adding NAVAID');
     console.log(freq)
+    if(freq!=null && range!=null && name!=null){
+        var text_api="NAVAID\nFreq."+freq.toString()+"Hz\n"+"Name: "+name+"\nRange "+range.toString()
+    }
+    else if(freq==null && range!=null && name!=null){
+        var text_api="NAVAID\n"+"Name: "+name+"\nRange "+range.toString()
+    }
+    else if(name==null && freq!=null && range!=null){
+        var text_api="NAVAID\nFreq."+freq.toString()+"Hz\n"+"\nRange "+range.toString()
+    }
+    else if(range==null && freq!=null && name!=null){
+        var text_api="NAVAID\nFreq."+freq.toString()+"Hz\n"+"Name: "+name
+    }
+    else{
+        var text_api="NAVAID"
+    }
     var position = new google.maps.LatLng(latnav,lonnav);
     var image = new google.maps.MarkerImage(
         'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.faa.gov%2Fabout%2Foffice_org%2Fheadquarters_offices%2Fang%2Foffices%2Ftc%2Flibrary%2Fstoryboard%2Fimg%2Fui%2FdetailedButtons%2Fnavaids_icon.png&f=1&nofb=1',
@@ -103,13 +118,13 @@ function addNavaid(latnav,lonnav,freq,name,range){
         position: position,
         map,
         icon: image,
-        title: "NAVAID\nFreq."+freq.toString()+"Hz\n"+name+"\nRange"+range.toString(),
+        title: text_api,
     });
 
 }
 
 function addEnds(latends,lonends,name){
-    console.log('adding ends');
+    console.log('adding RUNWAY');
     var position2 = new google.maps.LatLng(latends,lonends);
     var image2 = new google.maps.MarkerImage(
         'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ficon-library.com%2Fimages%2Frunway-icon%2Frunway-icon-4.jpg&f=1&nofb=1',
